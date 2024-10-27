@@ -1,0 +1,128 @@
+# CTNx config file
+
+#########################
+# Audio Player Options
+#########################
+
+#[NUMBER OF CHANNELS]
+# This flag will set the number of channels you want to use.
+# You can force a Stereo output ( 2.0 ) on a 7.1 system for example, by setting this flag to 2.
+# The number MUST always be EVEN ( eg. 2, 4, 6, 8). If you have 5.1 set, then use 6 ( 5+1 ). If you have 7.1 set, then use 8 ( 7+1 ).
+# NOTE: 0 = Autodetect. It will use the number of channels set in your audio card and/or inherited through audio software enhancements suites.
+# WARNING: This flag WILL impact the OVERALL external audio layer ( Music, SFX, Voice, Ambient, etc.)!
+external_audio_number_of_channels = 2
+
+#[SAMPLE RATE]
+# This flag will set the sample rate you want to use.
+# The number MUST be one of the known sample rates values ( 44100, 48000, etc. )
+# NOTE: 0 = Autodetect. It will use the sample rate set in your audio card and/or inherited through audio software enhancements suites.
+# WARNING: This flag WILL impact the OVERALL external audio layer ( Music, SFX, Voice, Ambient, etc.)!
+external_audio_sample_rate = 44100
+
+#[EXTERNAL VOICE PATH]
+# Path of the external voice files
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~
+external_voice_path = "voice"
+
+#[EXTERNAL VOICE EXTENSION]
+# The type of file to search for. By default is ogg.
+# You can use a list to specify multiple extensions, ordered by priority.
+# Example: ["ogg", "flac"]
+# Supported extensions:
+# - https://github.com/losnoco/vgmstream#supported-file-types
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~
+external_voice_ext = "ogg"
+
+#[EXTERNAL VOICE VOLUME]
+# This setting will allow you to configure the volume of the Voice layer.
+# Possible values: 0..100
+# If -1, the engine will try to detect the volume by other meanings:
+# - FF7 1998: It will attempt to use the CTNx registry paths ( also used by 7th Heaven )
+# - FF7 Steam: It will be set to 100% by default
+# - FF8 2000: It will be set to 100% by default
+# - FF8 Steam: It will be set to 100% by default
+external_voice_volume = -1
+
+#[ENABLE VOICE MUSIC FADE]
+# This flag will enable the music volume fade out and fade in, when a voice acting is being played back.
+# Please note this flag will take effect ONLY when "use_external_music" is enabled.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~
+enable_voice_music_fade = false
+
+#[EXTERNAL VOICE MUSIC FADE VOLUME]
+# This flag will set to how much the volume will be lowered down when a voice acting is going to be played back. When the voice file will be finished, the music volume will be then restored to its previous value.
+# Range: 0-100 ( Min = 0, Max = 100)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~
+external_voice_music_fade_volume = 25
+
+#[ENABLE VOICE AUTO TEXT]
+# This will allow you to enable or disable the Voice Auto-Text feature. When enabled the game will automatically close the dialogue as soon as the voice acting is finished for that line.
+enable_voice_auto_text = true
+
+#[EXTERNAL AMBIENT PATH]
+# Path of the external ambient files
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~
+external_ambient_path = "ambient"
+
+#[EXTERNAL AMBIENT EXTENSION]
+# The type of file to search for. By default is ogg.
+# You can use a list to specify multiple extensions, ordered by priority.
+# Example: ["ogg", "flac"]
+# Supported extensions:
+# - https://github.com/losnoco/vgmstream#supported-file-types
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~
+external_ambient_ext = "ogg"
+
+#[EXTERNAL AMBIENT VOLUME]
+# This setting will allow you to configure the volume of the Ambient layer.
+# Possible values: 0..100
+# If -1, the engine will try to detect the volume by other meanings:
+# - FF7 1998: It will attempt to use the CTNx registry paths ( also used by 7th Heaven )
+# - FF7 Steam: It will be set to 100% by default
+# - FF8 2000: It will be set to 100% by default
+# - FF8 Steam: It will be set to 100% by default
+external_ambient_volume = -1
+
+########################
+## MODDER OPTIONS
+########################
+
+# This path is where the Hext patching layer will look for txt files.
+# The path will ALWAYS have appended:
+# 1. The game name ( if FF7 it will be "ff7/", if FF8 will be "ff8/")
+# 2. The game language ( for eg. if ff7_en it will be "en" )
+# The resulting path will then be "<hext_patching_path>/ff7/en", if you run for eg. FF7 English
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~
+hext_patching_path = "hext"
+
+#[SPEEDHACK]
+# Set the step when increasing the speedhack speed
+#~~~~~~~~~~~~~~~~~~~~~~~~~~
+speedhack_step = 0.5
+
+# Set the limit of the speedhack multiplier
+#~~~~~~~~~~~~~~~~~~~~~~~~~~
+speedhack_max = 8.0
+speedhack_min = 1.0
+
+##########################
+# DEBUGGING OPTIONS
+# These options are mostly useful for developers or people reporting crashes.
+# Please do enable them only when required.
+##########################
+
+# trace_all - Dump in the logs whatever APIs is being called from the Engine in CTNx. Overrides all the others below.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~
+trace_all = false
+
+# trace_voice - Dump in the logs only APIs that has to do with voice playback
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~
+trace_voice = false
+
+# trace_ambient - Dump in the logs only APIs that has to do with ambient playback
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~
+trace_ambient = false
+
+# Creates a full crashdump file if the game crashes. Useful to be analyzed with WinDbg when reporting issues.
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~
+create_crash_dump = false

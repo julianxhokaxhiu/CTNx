@@ -1,0 +1,16 @@
+{
+  "registries": [
+    {
+      "kind": "filesystem",
+      "path": ".vcpkg",
+      "packages": [
+        "bx",
+        "hwinfo",
+        "soloud",
+        "stackwalker",
+        "tomlplusplus",
+        "vgmstream"
+      ]
+    }
+  ]
+}

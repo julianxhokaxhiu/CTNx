@@ -1,0 +1,17 @@
+{
+  "configurations": [
+    {
+      "name": "Run CT",
+      "type": "cppvsdbg",
+      "request": "launch",
+      "program": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Chrono Trigger\\Chrono Trigger.exe",
+      "cwd": "C:\\Program Files (x86)\\Steam\\steamapps\\common\\Chrono Trigger"
+    },
+    {
+      "name": "Attach Process",
+      "type": "cppvsdbg",
+      "request": "attach",
+      "processId":"${command:pickProcess}"
+    }
+  ]
+}

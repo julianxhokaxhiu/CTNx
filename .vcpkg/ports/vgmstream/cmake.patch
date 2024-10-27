@@ -1,0 +1,68 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f34fe127..539deb44 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,4 +1,5 @@
+ cmake_minimum_required(VERSION 3.6)
++cmake_policy(SET CMP0091 NEW)
+ project(vgmstream NONE)
+ 
+ if(CMAKE_SYSTEM_NAME MATCHES Darwin)
+diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
+index 3e707614..f653a75e 100644
+--- a/src/CMakeLists.txt
++++ b/src/CMakeLists.txt
+@@ -90,3 +90,30 @@ if(NOT EMSCRIPTEN)
+ 		set_target_properties(libvgmstream_shared PROPERTIES LINK_FLAGS_RELEASE -s)
+ 	endif()
+ endif()
++
++if(MSVC)
++	target_compile_definitions(libvgmstream PRIVATE "USE_ALLOCA")
++	target_compile_options(libvgmstream PRIVATE /DVGM_DEBUG_OUTPUT)
++endif()
++
++# Install library
++install(TARGETS libvgmstream
++  RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}"
++  ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
++  LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
++)
++
++if(NOT SKIP_INSTALL_HEADERS)
++	# Install headers
++	install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/vgmstream.h DESTINATION include/libvgmstream )
++	install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/vgmstream_types.h DESTINATION include/libvgmstream )
++	install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/base/plugins.h DESTINATION include/libvgmstream )
++	install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/util.h DESTINATION include/libvgmstream )
++	install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/util/log.h DESTINATION include/libvgmstream/util )
++	install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/util/reader_get.h DESTINATION include/libvgmstream/util )
++	install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/util/reader_put.h DESTINATION include/libvgmstream/util )
++	install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/util/vgmstream_limits.h DESTINATION include/libvgmstream/util )
++	install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/streamtypes.h DESTINATION include/libvgmstream )
++	install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/streamfile.h DESTINATION include/libvgmstream )
++	install( FILES ${CMAKE_CURRENT_SOURCE_DIR}/coding/g72x_state.h DESTINATION include/libvgmstream/coding )
++endif()
+diff --git a/src/base/streamfile_stdio.c b/src/base/streamfile_stdio.c
+index 948f5ffc..a3dc25b0 100644
+--- a/src/base/streamfile_stdio.c
++++ b/src/base/streamfile_stdio.c
+@@ -264,7 +264,10 @@ static STREAMFILE* open_stdio_streamfile_buffer_by_file(FILE* infile, const char
+ 
+     this_sf->name_len = strlen(filename);
+     if (this_sf->name_len >= sizeof(this_sf->name))
++    {
++        vgm_logi("STREAMFILE: filename length is longer than sizeof(this_sf->name).\n");
+         goto fail;
++    }
+     memcpy(this_sf->name, filename, this_sf->name_len);
+     this_sf->name[this_sf->name_len] = '\0';
+ 
+@@ -304,6 +307,7 @@ static STREAMFILE* open_stdio_streamfile_buffer_by_file(FILE* infile, const char
+     return &this_sf->vt;
+ 
+ fail:
++    vgm_logi("STREAMFILE: could not allocate stream because of memory exhaustion.\n");
+     free(buf);
+     free(this_sf);
+     return NULL;

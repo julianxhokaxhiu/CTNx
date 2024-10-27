@@ -1,0 +1,62 @@
+/****************************************************************************/
+//    Copyright (C) 2024 Julian Xhokaxhiu                                   //
+//                                                                          //
+//    This file is part of CTNx                                             //
+//                                                                          //
+//    CTNx is free software: you can redistribute it and/or modify          //
+//    it under the terms of the GNU General Public License as published by  //
+//    the Free Software Foundation, either version 3 of the License         //
+//                                                                          //
+//    CTNx is distributed in the hope that it will be useful,               //
+//    but WITHOUT ANY WARRANTY; without even the implied warranty of        //
+//    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         //
+//    GNU General Public License for more details.                          //
+/****************************************************************************/
+
+#pragma once
+
+#include <soloud.h>
+
+#if defined(__cplusplus)
+extern "C" {
+#endif
+
+#include <libvgmstream/vgmstream.h>
+
+#if defined(__cplusplus)
+}
+#endif
+
+namespace SoLoud
+{
+	class VGMStream : public AudioSource
+	{
+		static VGMSTREAM* init_vgmstream_with_extension(const char* aFilename, const char* ext);
+	public:
+		VGMSTREAM* mStream;
+		unsigned int mSampleCount;
+
+		sample_t* mData;
+
+		VGMStream();
+		virtual ~VGMStream();
+		result load(const char* aFilename, const char* ext = nullptr);
+
+		virtual AudioSourceInstance* createInstance();
+		time getLength();
+	};
+
+	class VGMStreamInstance : public AudioSourceInstance
+	{
+		sample_t* mStreamBuffer;
+		VGMStream* mParent;
+		unsigned int mOffset;
+	public:
+		VGMStreamInstance(VGMStream* aParent);
+		virtual ~VGMStreamInstance();
+		virtual unsigned int getAudio(float* aBuffer, unsigned int aSamplesToRead, unsigned int aBufferSize);
+		virtual result rewind();
+		virtual result seek(double aSeconds, float *mScratch, unsigned int mScratchSize);
+		virtual bool hasEnded();
+	};
+};
