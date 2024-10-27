@@ -1,0 +1,32 @@
+include(FindPackageHandleStandardArgs)
+
+if (NOT LIBCOCOS2D_FOUND)
+	find_library(
+		LIBCOCOS2D_LIBRARY
+		libcocos2d
+		PATH_SUFFIXES
+		lib
+		vendor/lib
+	)
+
+	find_path(
+		LIBCOCOS2D_INCLUDE_DIR
+		cocos
+		PATH_SUFFIXES
+		include
+		vendor/include
+	)
+
+	add_library(LIBCOCOS2D::LIBCOCOS2D STATIC IMPORTED)
+
+	set_target_properties(
+		LIBCOCOS2D::LIBCOCOS2D
+		PROPERTIES
+		IMPORTED_LOCATION
+		"${LIBCOCOS2D_LIBRARY}"
+		INTERFACE_INCLUDE_DIRECTORIES
+		"${LIBCOCOS2D_INCLUDE_DIR}"
+	)
+
+	find_package_handle_standard_args(LIBCOCOS2D DEFAULT_MSG LIBCOCOS2D_LIBRARY LIBCOCOS2D_INCLUDE_DIR)
+endif()

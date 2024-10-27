@@ -1,0 +1,17 @@
+{
+  "registries": [
+    {
+      "kind": "filesystem",
+      "path": ".vcpkg",
+      "packages": [
+        "bx",
+        "hwinfo",
+        "libcocos2d",
+        "soloud",
+        "stackwalker",
+        "tomlplusplus",
+        "vgmstream"
+      ]
+    }
+  ]
+}

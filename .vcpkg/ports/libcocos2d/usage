@@ -1,0 +1,4 @@
+To use COCOS2D add the following to your CMake project:
+
+    find_package(COCOS2D REQUIRED)
+    target_link_libraries(main PRIVATE COCOS2D::COCOS2D)

@@ -1,0 +1,18 @@
+diff --git a/cocos/deprecated/CCString.h b/cocos/deprecated/CCString.h
+index 9c4981cfa0..e1d326dfd5 100644
+--- a/cocos/deprecated/CCString.h
++++ b/cocos/deprecated/CCString.h
+@@ -200,13 +200,6 @@ public:
+     std::string _string;
+ };
+ 
+-struct StringCompare : public std::binary_function<__String *, __String *, bool> {
+-    public:
+-        bool operator() (__String * a, __String * b) const {
+-            return strcmp(a->getCString(), b->getCString()) < 0;
+-        }
+-};
+-
+ #define StringMake(str) String::create(str)
+ #define ccs             StringMake
+ 
